@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Localizar Ecoponto</title>
+    <title>Encontrar Ecoponto</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -20,27 +20,68 @@
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             text-align: center;
+            max-width: 400px;
+            width: 100%;
         }
-        #qrcode {
-            margin-top: 20px;
+        .box h1 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        .box p {
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+        .box button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .box button:hover {
+            background-color: #45a049;
         }
     </style>
 </head>
 <body>
     <div class="box">
-        <h1>Localizar Ecoponto</h1>
-        <p>Escaneie o QR Code abaixo para encontrar o ecoponto mais próximo no Google Maps:</p>
-        <div id="qrcode"></div>
+        <h1>Encontrar Ecoponto</h1>
+        <p>Clique no botão abaixo para encontrar o ecoponto mais próximo da sua localização:</p>
+        <button id="findEcoponto">Encontrar Ecoponto</button>
     </div>
 
-    <!-- Usando um CDN alternativo para qrcode.js -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <script>
-        const url = "https://www.google.com/maps/search/ecoponto+proximo+de+mim/";
-        QRCode.toCanvas(document.getElementById('qrcode'), url, function (error) {
-            if (error) console.error(error);
-            console.log('QR Code gerado com sucesso!');
-        });
+        // Função para obter a localização do usuário e redirecionar para o Google Maps
+        function findNearestEcoponto() {
+            if (navigator.geolocation) {
+                // Solicita a localização do usuário
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        const latitude = position.coords.latitude;
+                        const longitude = position.coords.longitude;
+
+                        // URL do Google Maps com a busca por "ecoponto" e a localização do usuário
+                        const mapsUrl = `https://www.google.com/maps/search/ecoponto/@${latitude},${longitude},15z`;
+
+                        // Redireciona o usuário para o Google Maps
+                        window.location.href = mapsUrl;
+                    },
+                    (error) => {
+                        // Caso o usuário negue a permissão de localização ou ocorra um erro
+                        alert("Não foi possível obter sua localização. Por favor, permita o acesso à localização.");
+                        console.error("Erro ao obter localização:", error);
+                    }
+                );
+            } else {
+                // Caso o navegador não suporte geolocalização
+                alert("Seu navegador não suporta geolocalização.");
+            }
+        }
+
+        // Adiciona um evento de clique ao botão
+        document.getElementById("findEcoponto").addEventListener("click", findNearestEcoponto);
     </script>
 </body>
 </html>
