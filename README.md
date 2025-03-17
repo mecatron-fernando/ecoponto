@@ -1,2 +1,0 @@
-# ecoponto
-ecoponto_local
