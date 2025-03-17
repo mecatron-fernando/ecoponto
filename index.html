@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Localizar Ecoponto</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        .box {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        #qrcode {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <h1>Localizar Ecoponto</h1>
+        <p>Escaneie o QR Code abaixo para encontrar o ecoponto mais próximo no Google Maps:</p>
+        <div id="qrcode"></div>
+    </div>
+
+    <!-- Usando um CDN alternativo para qrcode.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script>
+        const url = "https://www.google.com/maps/search/ecoponto+proximo+de+mim/";
+        QRCode.toCanvas(document.getElementById('qrcode'), url, function (error) {
+            if (error) console.error(error);
+            console.log('QR Code gerado com sucesso!');
+        });
+    </script>
+</body>
+</html>
